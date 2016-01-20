@@ -12,9 +12,7 @@ public class Condition {
     private String date;
     @SerializedName("temp")
     private String temperature;
-    private String description;
-    private List<Forecast> forecast;
-    private Guid guid;
+    private String text;
 
     public String getCode() {
         return code;
@@ -28,15 +26,7 @@ public class Condition {
         return temperature;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public List<Forecast> getForecast() {
-        return forecast;
-    }
-
-    public Guid getGuid() {
-        return guid;
+    public String getText() {
+        return text;
     }
 }

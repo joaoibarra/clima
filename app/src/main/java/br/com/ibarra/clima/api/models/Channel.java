@@ -5,4 +5,8 @@ package br.com.ibarra.clima.api.models;
  */
 public class Channel {
     private Item item;
+
+    public Item getItem() {
+        return item;
+    }
 }
