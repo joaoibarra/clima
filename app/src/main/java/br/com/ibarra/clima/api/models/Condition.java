@@ -8,13 +8,13 @@ import java.util.List;
  * Created by joaoibarra on 19/01/16.
  */
 public class Condition {
-    private String code;
+    private int code;
     private String date;
     @SerializedName("temp")
     private String temperature;
     private String text;
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
