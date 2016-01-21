@@ -10,14 +10,14 @@
     <string name="metric_unit">C°</string>
     <string name="default_unit">K°</string>
     <string name="imperial_unit">F°</string>
-    <string name="metric_unit_tostring">metric</string>
+    <string name="metric_unit_tostring">c</string>
     <string name="default_unit_tostring">default</string>
-    <string name="imperial_unit_tostring">imperial</string>
+    <string name="imperial_unit_tostring">f</string>
     <string name="city">Cidade</string>
     <string name="unit">Unidade de medida</string>
     <string name="city_key">CITY</string>
     <string name="unit_key">UNIT</string>
-    <string name="default_city">Florianópolis</string>
+    <string name="default_city">Florianópolis, SC</string>
     <string name="now">Tempo Agora</string>
 
     <string name="max_temperature">Máxima</string>

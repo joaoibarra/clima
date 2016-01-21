@@ -5,7 +5,7 @@ import br.com.ibarra.clima.api.models.Weather;
 /**
  * Created by joaoibarra on 20/01/16.
  */
-public class BackgroundImage {
+public class BackgroundImageHelper {
 
     public static String getImageUrl(Weather weather){
         int code = weather.getResults().getChannel().getItem().getCondition().getCode();

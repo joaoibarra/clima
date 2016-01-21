@@ -40,11 +40,21 @@
                 android:id="@+id/temperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:shadowColor="@color/shadow"
+                android:textColor="@color/homeText"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="1"
                 android:textSize="@dimen/temperature_size"/>
             <TextView
                 android:id="@+id/unit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:shadowColor="@color/shadow"
+                android:textColor="@color/homeText"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="1"
                 android:textSize="@dimen/temperature_size"/>
         </LinearLayout>
         <LinearLayout
@@ -55,6 +65,11 @@
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/homeText"
+                android:shadowColor="@color/shadow"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="1"
                 android:textSize="@dimen/description_size"/>
         </LinearLayout>
         <LinearLayout

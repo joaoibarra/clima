@@ -1,51 +1,47 @@
 package br.com.ibarra.clima.ui.activities;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
-import java.util.Calendar;
-import java.util.Date;
-
+import br.com.ibarra.clima.HomeActivity;
 import br.com.ibarra.clima.R;
-import br.com.ibarra.clima.api.models.Forecast;
+import br.com.ibarra.clima.api.models.Configuration;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 
 /**
- * Created by joaoibarra on 20/01/16.
+ * Created by joaoibarra on 21/01/16.
  */
-public class WeatherDetailActivity extends AppCompatActivity implements BaseActivity{
+public class ConfigurationActivity extends AppCompatActivity implements BaseActivity{
     @Bind(R.id.progressbar) LinearLayout progressbarLayout;
     @Bind(R.id.error) RelativeLayout errorLayout;
     @Bind(R.id.content) NestedScrollView contentLayout;
-    @Bind(R.id.date) TextView textViewDate;
-    @Bind(R.id.image) ImageView image;
-    @Bind(R.id.max_temperature) TextView textViewMaxTemperature;
-    @Bind(R.id.min_temperature) TextView textViewMinTemperature;
-    @Bind(R.id.humidity) TextView textViewHumidity;
-    @Bind(R.id.morning) TextView textViewMorning;
-    @Bind(R.id.evening) TextView textViewEvening;
-    @Bind(R.id.night) TextView textViewNight;
+    @Bind(R.id.city) EditText editTextCity;
+    @Bind(R.id.save) FloatingActionButton fabSave;
+    @Bind(R.id.unit) RadioGroup radioGroupUnit;
+
+    Configuration configuration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_weather_detail);
+        setContentView(R.layout.activity_configuration);
         ButterKnife.bind(this);
+        configuration = new Configuration(ConfigurationActivity.this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(null);
         setSupportActionBar(toolbar);
@@ -56,23 +52,24 @@ public class WeatherDetailActivity extends AppCompatActivity implements BaseActi
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        fabSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int selectedId = radioGroupUnit.getCheckedRadioButtonId();
+                configuration.setCity(editTextCity.getText().toString());
+                configuration.setUnit(selectedId);
+                Toast.makeText(ConfigurationActivity.this, getString(R.string.sucess_message), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(ConfigurationActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
+
         setLayoutValues();
     }
 
     private void setLayoutValues(){
-        Forecast forecast = EventBus.getDefault().removeStickyEvent(Forecast.class);
-        textViewMaxTemperature.setText(forecast.getHigh());
-        textViewMinTemperature.setText(forecast.getLow());
-        textViewDate.setText(forecast.getDate());
-        /*textViewHumidity.setText(weatherDailyItem.getHumidity());
-        textViewMorning.setText(weatherDailyItem.getDayTemperature().getMorningTemperature());
-        textViewEvening.setText(weatherDailyItem.getDayTemperature().getEveningTemperature());
-        textViewNight.setText(weatherDailyItem.getDayTemperature().getNightTemperature());*/
-
-       /* Picasso.with(this)
-                .load(Url.IMAGE + weatherDailyItem.getWeather().get(0).getIcon() + ".png")
-                .into(image);*/
-        //textViewDate.setText(Util.dateToString(weatherDailyItem.getDt()));
+        editTextCity.setText(configuration.getCity());
+        radioGroupUnit.check(configuration.getUnit());
     }
 
     @Override

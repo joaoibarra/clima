@@ -7,4 +7,6 @@
     <color name="errorButton">#039BE5</color>
     <color name="errorButtonText">#FFFFFF</color>
     <color name="colorBackground">#CCCCCC</color>
+    <color name="shadow">#000000</color>
+    <color name="homeText">#FFFFFF</color>
 </resources>
