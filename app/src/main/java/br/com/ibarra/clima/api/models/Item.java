@@ -1,13 +1,19 @@
 package br.com.ibarra.clima.api.models;
 
 import com.google.gson.annotations.SerializedName;
+import com.yahoo.squidb.annotations.PrimaryKey;
+import com.yahoo.squidb.annotations.TableModelSpec;
 
 import java.util.List;
 
 /**
  * Created by joaoibarra on 19/01/16.
  */
+@TableModelSpec(className="Item", tableName="items", tableConstraint = "FOREIGN KEY(channelId) REFERENCES channels(_id)")
 public class Item {
+    @PrimaryKey
+    long id;
+    long channelId;
     private String title;
     @SerializedName("lat")
     private String latitude;
@@ -15,7 +21,7 @@ public class Item {
     private String longitude;
     private String link;
     private String pubDate;
-    private Condition condition;
+    private ConditionSpec condition;
     private String description;
     private List<Forecast> forecast;
     private Guid guid;
@@ -40,7 +46,7 @@ public class Item {
         return pubDate;
     }
 
-    public Condition getCondition() {
+    public ConditionSpec getCondition() {
         return condition;
     }
 
