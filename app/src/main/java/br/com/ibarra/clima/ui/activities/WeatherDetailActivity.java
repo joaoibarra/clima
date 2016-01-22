@@ -21,6 +21,7 @@ import java.util.Date;
 
 import br.com.ibarra.clima.R;
 import br.com.ibarra.clima.api.models.Forecast;
+import br.com.ibarra.clima.helpers.UrlHelper;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
@@ -36,10 +37,6 @@ public class WeatherDetailActivity extends AppCompatActivity implements BaseActi
     @Bind(R.id.image) ImageView image;
     @Bind(R.id.max_temperature) TextView textViewMaxTemperature;
     @Bind(R.id.min_temperature) TextView textViewMinTemperature;
-    @Bind(R.id.humidity) TextView textViewHumidity;
-    @Bind(R.id.morning) TextView textViewMorning;
-    @Bind(R.id.evening) TextView textViewEvening;
-    @Bind(R.id.night) TextView textViewNight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +61,9 @@ public class WeatherDetailActivity extends AppCompatActivity implements BaseActi
         textViewMaxTemperature.setText(forecast.getHigh());
         textViewMinTemperature.setText(forecast.getLow());
         textViewDate.setText(forecast.getDate());
-        /*textViewHumidity.setText(weatherDailyItem.getHumidity());
-        textViewMorning.setText(weatherDailyItem.getDayTemperature().getMorningTemperature());
-        textViewEvening.setText(weatherDailyItem.getDayTemperature().getEveningTemperature());
-        textViewNight.setText(weatherDailyItem.getDayTemperature().getNightTemperature());*/
-
-       /* Picasso.with(this)
-                .load(Url.IMAGE + weatherDailyItem.getWeather().get(0).getIcon() + ".png")
-                .into(image);*/
-        //textViewDate.setText(Util.dateToString(weatherDailyItem.getDt()));
+       Picasso.with(this)
+                .load(UrlHelper.getImageUrl(forecast.getCode()))
+                .into(image);
     }
 
     @Override

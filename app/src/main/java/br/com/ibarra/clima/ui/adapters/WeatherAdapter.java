@@ -11,6 +11,7 @@ import java.util.List;
 
 import br.com.ibarra.clima.R;
 import br.com.ibarra.clima.api.models.Forecast;
+import br.com.ibarra.clima.helpers.UrlHelper;
 import br.com.ibarra.clima.ui.holders.WeatherHolder;
 
 /**
@@ -34,18 +35,10 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherHolder>{
     @Override
     public void onBindViewHolder(WeatherHolder holder, int position) {
         Forecast forecast = this.forecastList.get(position);
-        /*Picasso.with(holder.getImage().getContext())
-                .load(Url.IMAGE + weatherDailyItem.getWeather().get(0).getIcon() + ".png")
-                .into(holder.getImage());*/
-
-       /* holder.getTextViewDate().setText(Util.dateToString(weatherDailyItem.getDt()));
-
-        holder.getTextViewMaxTemperature().setText(Util.temperatureDoubleToString(weatherDailyItem.getDayTemperature().getMaxDailyTemperature()));
-        holder.getTextViewMinTemperature().setText(Util.temperatureDoubleToString(weatherDailyItem.getDayTemperature().getMinDailyTemperature()));
-        holder.setWeatherDailyItem(weatherDailyItem);*/
-
+        Picasso.with(holder.getImage().getContext())
+                .load(UrlHelper.getImageUrl(forecast.getCode()))
+                .into(holder.getImage());
         holder.getTextViewDate().setText(forecast.getDay());
-
         holder.getTextViewMaxTemperature().setText(forecast.getHigh());
         holder.getTextViewMinTemperature().setText(forecast.getLow());
         holder.setForecast(forecast);

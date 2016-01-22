@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import br.com.ibarra.clima.api.services.interfaces.YahooWeatherService;
+import br.com.ibarra.clima.helpers.UrlHelper;
 import okhttp3.OkHttpClient;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
@@ -29,7 +30,7 @@ public class YahooWeatherServiceImpl {
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://query.yahooapis.com")
+                .baseUrl(UrlHelper.API)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();

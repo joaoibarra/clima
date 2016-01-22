@@ -7,8 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,25 +25,31 @@ import br.com.ibarra.clima.api.models.Weather;
 import br.com.ibarra.clima.api.models.WeatherResult;
 import br.com.ibarra.clima.api.services.YahooWeatherServiceImpl;
 import br.com.ibarra.clima.helpers.BackgroundImageHelper;
+import br.com.ibarra.clima.helpers.UrlHelper;
+import br.com.ibarra.clima.ui.activities.BaseActivity;
 import br.com.ibarra.clima.ui.activities.ConfigurationActivity;
 import br.com.ibarra.clima.ui.adapters.WeatherAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements BaseActivity{
+    @Bind(R.id.progressbar) LinearLayout progressbarLayout;
+    @Bind(R.id.error) RelativeLayout errorLayout;
+    @Bind(R.id.content) LinearLayout contentLayout;
     @Bind(R.id.header) ImageView header;
     @Bind(R.id.weather_daily_list) RecyclerView forecastList;
     @Bind(R.id.temperature) TextView textViewTemperature;
     @Bind(R.id.description) TextView textViewDescription;
-    @Bind(R.id.humidity) TextView textViewHumidity;
     @Bind(R.id.unit) TextView textViewUnit;
     @Bind(R.id.image) ImageView image;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.reload) Button reloadButton;
 
     private LinearLayoutManager layoutManager;
-    private Toolbar toolbar;
     Configuration configuration;
 
     @Override
@@ -48,20 +60,17 @@ public class HomeActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         configuration = new Configuration(HomeActivity.this);
         forecastList.setLayoutManager(layoutManager);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, ConfigurationActivity.class);
-                startActivity(intent);
-            }
-        });
+        verifyData();
+    }
+
+    @OnClick(R.id.reload)
+    public void reload(){
         verifyData();
     }
 
     public void getData() {
+        onLoadProgress();
         Call<WeatherResult> call = YahooWeatherServiceImpl.getInstance().getWeather(
                 configuration.getQuery(),
                 "json"
@@ -78,10 +87,12 @@ public class HomeActivity extends AppCompatActivity {
                         WeatherAdapter weatherAdapter = new WeatherAdapter(weather.getWeather().getResults().getChannel().getItem().getForecast());
                         forecastList.setAdapter(weatherAdapter);
                         setLayoutValues(weather.getWeather());
-                       /* setLayoutValues(weatherToday);
-                        getWeatherNextDays();*/
+                        onFinishProgress();
+                        showContent();
                     } else {
-                        Toast.makeText(HomeActivity.this, "Erro ao obter dados", Toast.LENGTH_LONG).show();
+                        onFinishProgress();
+                        onFinishError();
+                        Toast.makeText(HomeActivity.this, getResources().getString(R.string.error_data), Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -89,8 +100,9 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onFailure(Throwable t) {
                 t.fillInStackTrace();
-               /* onFinishProgress();
-                onFinishError();*/
+                onFinishProgress();
+                onFinishError();
+                Toast.makeText(HomeActivity.this, getResources().getString(R.string.error_data), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -105,6 +117,9 @@ public class HomeActivity extends AppCompatActivity {
         Picasso.with(HomeActivity.this)
                 .load(BackgroundImageHelper.getImageUrl(weather))
                 .into(header);
+        Picasso.with(HomeActivity.this)
+                .load(UrlHelper.getImageUrl(weather))
+                .into(image);
         textViewTemperature.setText(weather.getResults().getChannel().getItem().getCondition().getTemperature());
         textViewUnit.setText(configuration.getUnitAbbreviation());
         textViewDescription.setText(weather.getResults().getChannel().getItem().getCondition().getText());
@@ -112,12 +127,66 @@ public class HomeActivity extends AppCompatActivity {
 
     public void verifyData(){
         Weather weather = Weather.first(Weather.class);
-        if(weather!=null && weather.getCity().equalsIgnoreCase(configuration.getCity()) && weather.getUnit().equalsIgnoreCase(configuration.getUnitToString())){
+        if(weather!=null &&
+                weather.getCity().equalsIgnoreCase(configuration.getCity()) &&
+                weather.getUnit().equalsIgnoreCase(configuration.getUnitToString())){
             WeatherAdapter weatherAdapter = new WeatherAdapter(weather.getResults().getChannel().getItem().getForecast());
             forecastList.setAdapter(weatherAdapter);
             setLayoutValues(weather);
         }else{
             setLayoutValues();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_home, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(HomeActivity.this, ConfigurationActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onLoadProgress() {
+        hideError();
+        hideContent();
+        progressbarLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onFinishProgress() {
+        progressbarLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onFinishError() {
+        hideContent();
+        errorLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideError() {
+        errorLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideContent() {
+        contentLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showContent() {
+        contentLayout.setVisibility(View.VISIBLE);
     }
 }

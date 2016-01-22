@@ -30,8 +30,6 @@ public class WeatherHolder extends RecyclerView.ViewHolder
     @Nullable
     @Bind(R.id.unit) TextView textViewUnit;
     @Nullable
-    @Bind(R.id.humidity) TextView textViewHumidity;
-    @Nullable
     @Bind(R.id.description) TextView textViewDescription;
     @Nullable
     @Bind(R.id.image) ImageView image;
@@ -69,10 +67,6 @@ public class WeatherHolder extends RecyclerView.ViewHolder
 
     public TextView getTextViewUnit() {
         return textViewUnit;
-    }
-
-    public TextView getTextViewHumidity() {
-        return textViewHumidity;
     }
 
     public TextView getTextViewDescription() {
