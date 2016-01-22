@@ -58,7 +58,7 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        setLayoutValues();
+        verifyData();
     }
 
     public void getData() {
@@ -72,11 +72,11 @@ public class HomeActivity extends AppCompatActivity {
                 if (response.isSuccess()) {
                     WeatherResult weather = response.body();
                     if (weather.getWeather().getResults().getChannel().getItem().getForecast() != null) {
+                        weather.getWeather().setCity(configuration.getCity());
+                        weather.getWeather().setUnit(configuration.getUnitToString());
+                        weather.getWeather().save();
                         WeatherAdapter weatherAdapter = new WeatherAdapter(weather.getWeather().getResults().getChannel().getItem().getForecast());
                         forecastList.setAdapter(weatherAdapter);
-                        Picasso.with(HomeActivity.this)
-                                .load(BackgroundImageHelper.getImageUrl(weather.getWeather()))
-                                .into(header);
                         setLayoutValues(weather.getWeather());
                        /* setLayoutValues(weatherToday);
                         getWeatherNextDays();*/
@@ -102,21 +102,22 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setLayoutValues(Weather weather) {
         getSupportActionBar().setTitle(configuration.getCity());
-        /*Picasso.with(this)
-                .load(Url.IMAGE + weather.getWeather().get(0).getIcon() + ".png")
-                .into(image);*/
-        /*textViewTemperature.setText(Util.temperatureDoubleToString(weather.getMain().getTemperature()));
-        textViewUnit.setText(configuration.getUnitAbbreviation());
-        textViewDescription.setText(weather.getWeather().get(0).getDescription());
-        textViewHumidity.setText(weather.getMain().getHumidity() + "%");*/
-
-        Picasso.with(this)
-                .load("http://www.weather.com/sites/all/modules/custom/angularmods/app/shared/wxicon/svgz/thunderstorm.svgz")
-                .into(image);
+        Picasso.with(HomeActivity.this)
+                .load(BackgroundImageHelper.getImageUrl(weather))
+                .into(header);
         textViewTemperature.setText(weather.getResults().getChannel().getItem().getCondition().getTemperature());
         textViewUnit.setText(configuration.getUnitAbbreviation());
         textViewDescription.setText(weather.getResults().getChannel().getItem().getCondition().getText());
-        //textViewHumidity.setText(weather.getMain().getHumidity() + "%");
+    }
 
+    public void verifyData(){
+        Weather weather = Weather.first(Weather.class);
+        if(weather!=null && weather.getCity().equalsIgnoreCase(configuration.getCity()) && weather.getUnit().equalsIgnoreCase(configuration.getUnitToString())){
+            WeatherAdapter weatherAdapter = new WeatherAdapter(weather.getResults().getChannel().getItem().getForecast());
+            forecastList.setAdapter(weatherAdapter);
+            setLayoutValues(weather);
+        }else{
+            setLayoutValues();
+        }
     }
 }
