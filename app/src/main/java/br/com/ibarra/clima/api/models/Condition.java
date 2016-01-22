@@ -9,8 +9,8 @@ import java.util.List;
 /**
  * Created by joaoibarra on 19/01/16.
  */
-@TableModelSpec(className="Condition", tableName="conditions", tableConstraint = "FOREIGN KEY(itemId) REFERENCES items(_id)")
-public class ConditionSpec {
+@TableModelSpec(className="ConditionSpec", tableName="conditions", tableConstraint = "FOREIGN KEY(itemId) REFERENCES items(_id)")
+public class Condition {
     @PrimaryKey
     long id;
     long itemId;

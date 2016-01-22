@@ -6,13 +6,16 @@ import com.yahoo.squidb.data.SquidDatabase;
 import com.yahoo.squidb.data.adapter.SQLiteDatabaseWrapper;
 import com.yahoo.squidb.sql.Table;
 
+import br.com.ibarra.clima.api.models.Channel;
 import br.com.ibarra.clima.api.models.ChannelSpec;
+import br.com.ibarra.clima.api.models.Condition;
 import br.com.ibarra.clima.api.models.ConditionSpec;
-import br.com.ibarra.clima.api.models.Forecast;
-import br.com.ibarra.clima.api.models.Guid;
-import br.com.ibarra.clima.api.models.Item;
-import br.com.ibarra.clima.api.models.Result;
+import br.com.ibarra.clima.api.models.ForecastSpec;
+import br.com.ibarra.clima.api.models.GuidSpec;
+import br.com.ibarra.clima.api.models.ItemSpec;
+import br.com.ibarra.clima.api.models.ResultSpec;
 import br.com.ibarra.clima.api.models.Weather;
+import br.com.ibarra.clima.api.models.WeatherSpec;
 
 /**
  * Created by joaoibarra on 1/21/16.
@@ -35,11 +38,11 @@ public class ClimaDatabase extends SquidDatabase{
                 // List all tables here
                 ChannelSpec.TABLE,
                 ConditionSpec.TABLE,
-                Forecast.TABLE,
-                Guid.TABLE,
-                Item.TABLE,
-                Result.TABLE,
-                Weather.TABLE
+                ForecastSpec.TABLE,
+                GuidSpec.TABLE,
+                ItemSpec.TABLE,
+                ResultSpec.TABLE,
+                WeatherSpec.TABLE
         };
     }
 
@@ -51,5 +54,10 @@ public class ClimaDatabase extends SquidDatabase{
     @Override
     protected boolean onUpgrade(SQLiteDatabaseWrapper sqLiteDatabaseWrapper, int i, int i1) {
         return false;
+    }
+
+    public void saveAll(ClimaDatabase climaDatabase, Weather weather){
+        WeatherSpec weatherSpec = new WeatherSpec().
+        climaDatabase.persist(weather);
     }
 }

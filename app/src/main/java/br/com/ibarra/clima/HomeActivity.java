@@ -18,6 +18,7 @@ import br.com.ibarra.clima.api.models.Configuration;
 import br.com.ibarra.clima.api.models.Weather;
 import br.com.ibarra.clima.api.models.WeatherResult;
 import br.com.ibarra.clima.api.services.YahooWeatherServiceImpl;
+import br.com.ibarra.clima.database.ClimaDatabase;
 import br.com.ibarra.clima.helpers.BackgroundImageHelper;
 import br.com.ibarra.clima.ui.activities.ConfigurationActivity;
 import br.com.ibarra.clima.ui.adapters.WeatherAdapter;
@@ -39,6 +40,7 @@ public class HomeActivity extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private Toolbar toolbar;
     Configuration configuration;
+    ClimaDatabase climaDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         layoutManager = new LinearLayoutManager(this);
         configuration = new Configuration(HomeActivity.this);
+        climaDatabase = new ClimaDatabase(this);
         forecastList.setLayoutManager(layoutManager);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,6 +75,7 @@ public class HomeActivity extends AppCompatActivity {
                 if (response.isSuccess()) {
                     WeatherResult weather = response.body();
                     if (weather.getWeather().getResults().getChannel().getItem().getForecast() != null) {
+                        climaDatabase.saveAll(climaDatabase, weather.getWeather());
                         WeatherAdapter weatherAdapter = new WeatherAdapter(weather.getWeather().getResults().getChannel().getItem().getForecast());
                         forecastList.setAdapter(weatherAdapter);
                         Picasso.with(HomeActivity.this)

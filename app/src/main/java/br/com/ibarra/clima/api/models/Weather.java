@@ -6,7 +6,7 @@ import com.yahoo.squidb.annotations.TableModelSpec;
 /**
  * Created by joaoibarra on 19/01/16.
  */
-@TableModelSpec(className="Weather", tableName="weathers")
+@TableModelSpec(className="WeatherSpec", tableName="weathers")
 public class Weather {
     @PrimaryKey
     long id;

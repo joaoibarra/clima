@@ -1,6 +1,5 @@
 package br.com.ibarra.clima.api.services.interfaces;
 
-import br.com.ibarra.clima.api.models.Weather;
 import br.com.ibarra.clima.api.models.WeatherResult;
 import retrofit2.Call;
 import retrofit2.http.GET;

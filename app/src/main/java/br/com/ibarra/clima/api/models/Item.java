@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by joaoibarra on 19/01/16.
  */
-@TableModelSpec(className="Item", tableName="items", tableConstraint = "FOREIGN KEY(channelId) REFERENCES channels(_id)")
+@TableModelSpec(className="ItemSpec", tableName="items", tableConstraint = "FOREIGN KEY(channelId) REFERENCES channels(_id)")
 public class Item {
     @PrimaryKey
     long id;
@@ -21,7 +21,7 @@ public class Item {
     private String longitude;
     private String link;
     private String pubDate;
-    private ConditionSpec condition;
+    private Condition condition;
     private String description;
     private List<Forecast> forecast;
     private Guid guid;
@@ -46,7 +46,7 @@ public class Item {
         return pubDate;
     }
 
-    public ConditionSpec getCondition() {
+    public Condition getCondition() {
         return condition;
     }
 

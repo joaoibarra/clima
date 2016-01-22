@@ -7,14 +7,14 @@ import com.yahoo.squidb.annotations.TableModelSpec;
 /**
  * Created by joaoibarra on 19/01/16.
  */
-@TableModelSpec(className="Result", tableName="results", tableConstraint = "FOREIGN KEY(weatherId) REFERENCES weathers(_id)")
+@TableModelSpec(className="ResultSpec", tableName="results", tableConstraint = "FOREIGN KEY(weatherId) REFERENCES weathers(_id)")
 public class Result {
     @PrimaryKey
     long id;
     long weatherId;
-    private ChannelSpec channel;
+    private Channel channel;
 
-    public ChannelSpec getChannel() {
+    public Channel getChannel() {
         return channel;
     }
 }

@@ -6,7 +6,7 @@ import com.yahoo.squidb.annotations.TableModelSpec;
 /**
  * Created by joaoibarra on 19/01/16.
  */
-@TableModelSpec(className="Guid", tableName="guids", tableConstraint = "FOREIGN KEY(itemId) REFERENCES items(_id)")
+@TableModelSpec(className="GuidSpec", tableName="guids", tableConstraint = "FOREIGN KEY(itemId) REFERENCES items(_id)")
 public class Guid {
     @PrimaryKey
     long id;

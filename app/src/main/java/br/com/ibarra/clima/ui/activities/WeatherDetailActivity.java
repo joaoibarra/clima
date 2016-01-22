@@ -1,12 +1,8 @@
 package br.com.ibarra.clima.ui.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,13 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
-import java.util.Calendar;
-import java.util.Date;
-
 import br.com.ibarra.clima.R;
-import br.com.ibarra.clima.api.models.Forecast;
+import br.com.ibarra.clima.api.models.ForecastSpec;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
@@ -60,17 +51,17 @@ public class WeatherDetailActivity extends AppCompatActivity implements BaseActi
     }
 
     private void setLayoutValues(){
-        Forecast forecast = EventBus.getDefault().removeStickyEvent(Forecast.class);
-        textViewMaxTemperature.setText(forecast.getHigh());
-        textViewMinTemperature.setText(forecast.getLow());
-        textViewDate.setText(forecast.getDate());
+        ForecastSpec forecastSpec = EventBus.getDefault().removeStickyEvent(ForecastSpec.class);
+        textViewMaxTemperature.setText(forecastSpec.getHigh());
+        textViewMinTemperature.setText(forecastSpec.getLow());
+        textViewDate.setText(forecastSpec.getDate());
         /*textViewHumidity.setText(weatherDailyItem.getHumidity());
         textViewMorning.setText(weatherDailyItem.getDayTemperature().getMorningTemperature());
         textViewEvening.setText(weatherDailyItem.getDayTemperature().getEveningTemperature());
         textViewNight.setText(weatherDailyItem.getDayTemperature().getNightTemperature());*/
 
        /* Picasso.with(this)
-                .load(Url.IMAGE + weatherDailyItem.getWeather().get(0).getIcon() + ".png")
+                .load(Url.IMAGE + weatherDailyItem.getWeatherSpec().get(0).getIcon() + ".png")
                 .into(image);*/
         //textViewDate.setText(Util.dateToString(weatherDailyItem.getDt()));
     }
