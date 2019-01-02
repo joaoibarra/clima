@@ -2,11 +2,10 @@ package br.com.ibarra.clima;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,25 +28,36 @@ import br.com.ibarra.clima.helpers.UrlHelper;
 import br.com.ibarra.clima.ui.activities.BaseActivity;
 import br.com.ibarra.clima.ui.activities.ConfigurationActivity;
 import br.com.ibarra.clima.ui.adapters.WeatherAdapter;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeActivity extends AppCompatActivity implements BaseActivity{
-    @Bind(R.id.progressbar) LinearLayout progressbarLayout;
-    @Bind(R.id.error) RelativeLayout errorLayout;
-    @Bind(R.id.content) LinearLayout contentLayout;
-    @Bind(R.id.header) ImageView header;
-    @Bind(R.id.weather_daily_list) RecyclerView forecastList;
-    @Bind(R.id.temperature) TextView textViewTemperature;
-    @Bind(R.id.description) TextView textViewDescription;
-    @Bind(R.id.unit) TextView textViewUnit;
-    @Bind(R.id.image) ImageView image;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.reload) Button reloadButton;
+public class HomeActivity extends AppCompatActivity implements BaseActivity {
+    @BindView(R.id.progressbar)
+    LinearLayout progressbarLayout;
+    @BindView(R.id.error)
+    RelativeLayout errorLayout;
+    @BindView(R.id.content)
+    LinearLayout contentLayout;
+    @BindView(R.id.header)
+    ImageView header;
+    @BindView(R.id.weather_daily_list)
+    RecyclerView forecastList;
+    @BindView(R.id.temperature)
+    TextView textViewTemperature;
+    @BindView(R.id.description)
+    TextView textViewDescription;
+    @BindView(R.id.unit)
+    TextView textViewUnit;
+    @BindView(R.id.image)
+    ImageView image;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.reload)
+    Button reloadButton;
 
     private LinearLayoutManager layoutManager;
     Configuration configuration;
@@ -65,7 +75,7 @@ public class HomeActivity extends AppCompatActivity implements BaseActivity{
     }
 
     @OnClick(R.id.reload)
-    public void reload(){
+    public void reload() {
         verifyData();
     }
 
@@ -77,8 +87,8 @@ public class HomeActivity extends AppCompatActivity implements BaseActivity{
         );
         call.enqueue(new Callback<WeatherResult>() {
             @Override
-            public void onResponse(Response<WeatherResult> response) {
-                if (response.isSuccess()) {
+            public void onResponse(Call<WeatherResult> call, Response<WeatherResult> response) {
+                if (response.isSuccessful()) {
                     WeatherResult weather = response.body();
                     if (weather.getWeather().getResults().getChannel().getItem().getForecast() != null) {
                         weather.getWeather().setCity(configuration.getCity());
@@ -98,7 +108,7 @@ public class HomeActivity extends AppCompatActivity implements BaseActivity{
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<WeatherResult> call, Throwable t) {
                 t.fillInStackTrace();
                 onFinishProgress();
                 onFinishError();
@@ -107,7 +117,7 @@ public class HomeActivity extends AppCompatActivity implements BaseActivity{
         });
     }
 
-    private void setLayoutValues(){
+    private void setLayoutValues() {
         getSupportActionBar().setTitle(configuration.getCity());
         getData();
     }
@@ -125,15 +135,15 @@ public class HomeActivity extends AppCompatActivity implements BaseActivity{
         textViewDescription.setText(weather.getResults().getChannel().getItem().getCondition().getText());
     }
 
-    public void verifyData(){
+    public void verifyData() {
         Weather weather = Weather.first(Weather.class);
-        if(weather!=null &&
+        if (weather != null &&
                 weather.getCity().equalsIgnoreCase(configuration.getCity()) &&
-                weather.getUnit().equalsIgnoreCase(configuration.getUnitToString())){
+                weather.getUnit().equalsIgnoreCase(configuration.getUnitToString())) {
             WeatherAdapter weatherAdapter = new WeatherAdapter(weather.getResults().getChannel().getItem().getForecast());
             forecastList.setAdapter(weatherAdapter);
             setLayoutValues(weather);
-        }else{
+        } else {
             setLayoutValues();
         }
     }
