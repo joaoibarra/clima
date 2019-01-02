@@ -10,5 +10,5 @@
     <color name="shadow">#000000</color>
     <color name="homeText">#FFFFFF</color>
     <color name="minTemperature">#1565C0</color>
-    <color name="maxTemperature">#F44336</color>
+    <color name="maxTemperature">#ff867f</color>
 </resources>

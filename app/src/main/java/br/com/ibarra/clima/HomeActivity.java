@@ -53,7 +53,7 @@ public class HomeActivity extends AppCompatActivity implements BaseActivity {
     TextView textViewDescription;
     @BindView(R.id.unit)
     TextView textViewUnit;
-    @BindView(R.id.image)
+    @BindView(R.id.weatherImage)
     ImageView image;
     @BindView(R.id.toolbar)
     Toolbar toolbar;

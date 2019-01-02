@@ -20,6 +20,7 @@
         android:layout_marginEnd="8dp"
         android:scrollbars="none"
         tools:listitem="@layout/weather_holder"
+        tools:itemCount="7"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -44,7 +44,7 @@ public class WeatherDetailActivity extends AppCompatActivity implements BaseActi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather_detail);
         ButterKnife.bind(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         toolbar.setTitle(null);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

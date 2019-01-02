@@ -50,7 +50,7 @@
             card_view:layout_constraintHorizontal_bias="0.5"
             card_view:layout_constraintStart_toEndOf="@+id/date"
             card_view:layout_constraintTop_toTopOf="parent"
-            tools:text="@tools:sample/avatars" />
+            tools:background="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/max_temperature"
