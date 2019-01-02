@@ -2,6 +2,7 @@ package br.com.ibarra.clima;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,7 +42,7 @@ public class HomeActivity extends AppCompatActivity implements BaseActivity {
     @BindView(R.id.error)
     RelativeLayout errorLayout;
     @BindView(R.id.content)
-    LinearLayout contentLayout;
+    ConstraintLayout contentLayout;
     @BindView(R.id.header)
     ImageView header;
     @BindView(R.id.weather_daily_list)
