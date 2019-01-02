@@ -6,8 +6,8 @@ import com.google.gson.GsonBuilder;
 import br.com.ibarra.clima.api.services.interfaces.YahooWeatherService;
 import br.com.ibarra.clima.helpers.UrlHelper;
 import okhttp3.OkHttpClient;
-import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by joaoibarra on 19/01/16.
@@ -15,14 +15,15 @@ import retrofit2.Retrofit;
 public class YahooWeatherServiceImpl {
     public static YahooWeatherService yahooWeatherService;
 
-    public static YahooWeatherService getInstance(){
-        if(yahooWeatherService ==null)
+    public static YahooWeatherService getInstance() {
+        if (yahooWeatherService == null)
             return new YahooWeatherServiceImpl().create();
 
         return yahooWeatherService;
     }
 
-    private YahooWeatherServiceImpl(){}
+    private YahooWeatherServiceImpl() {
+    }
 
     public YahooWeatherService create() {
         final OkHttpClient okHttpClient = new OkHttpClient();
